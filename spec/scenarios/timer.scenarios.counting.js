@@ -1,5 +1,5 @@
 /* jshint esversion: 6 */
-import Defaults from "../../app/assets/js/mytimer.defaults";
+import Defaults from "../../app/mytimer.defaults";
 let convert = Defaults.prototype.convert;
 
 let  scenarios = [

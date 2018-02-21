@@ -62,9 +62,13 @@ export default class defaults {
     this.events = [
       "currentTime",
       "sessionChanged",
+      "sessionStarted",
       "sessionStopped",
-      "sessionPaused"
+      "sessionPaused",
+      "timerReset"
     ];
+
+    this.listeners = {};
 
     /** set status to stop */
 		this.status = this.statuses.get("stopped");
@@ -109,7 +113,7 @@ export default class defaults {
         this.steps.set("session", obj.value);
       }
     } else {
-      throw Error("");
+      throw Error("Object passed to session is invalid.");
     }
   }
 
@@ -120,6 +124,7 @@ export default class defaults {
       If all "yes": return true
       If any "no": return false.
       */
+     // TODO step should be only integer
   verifyStep(obj) {
     return hOP(obj, "value") && // TODO needed??
            isNumber(obj.value) &&
@@ -141,7 +146,7 @@ export default class defaults {
         this.steps.set("interval", obj.value);
       }
     } else {
-      throw Error("");
+      throw Error("Object passed to interval is invalid.");
     }
   }
 

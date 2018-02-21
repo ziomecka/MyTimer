@@ -85,7 +85,7 @@ export default class MyTimer {
 
     /** Create MyTimer's events. */
     this.event = (() => {
-      let listeners = {};
+      let listeners = _this.listeners;
       _this.events.forEach((event) => listeners[event] = []);
       return {
         subscribe: (listener, eventName, method) => {
@@ -120,6 +120,7 @@ export default class MyTimer {
       _this.isCounting = true;
       /** publish time at predefined intervals */
       _this.countDown = setInterval(publishTime(), _this.interval);
+      this.event.publish("sessionStarted");
       return this;
     } else {
       _this = null;
@@ -129,34 +130,33 @@ export default class MyTimer {
 
   stop() {
     let _this = _privateObjects.get(this);
+
     if (_this.isCounting) {
       let now = Date.now();
       let maximumTime = _this.start + _this.session;
       const countDown = _this.countDown;
-
       _this.now = (now > maximumTime)? maximumTime : now;
     	if (countDown) clearInterval(countDown);
     	_this.countDown = null; //TODO is needed?
+    }
       _this.isStopped = true;
       _this = null;
-
       this.event.publish("sessionStopped");
-      return true;
-    }
+
     _this = null;
-    return false;
+    return this;
   }
 
   pause() {
     let _this = _privateObjects.get(this);
     if (_this.isCounting) {
-      _this.now = Date.now();
       const countDown = _this.countDown;
-    	if (countDown) clearInterval(countDown);
+      _this.now = Date.now();
       _this.isPaused = true;
+    	if (countDown) clearInterval(countDown);
       _this = null;
       this.event.publish("sessionPaused");
-      return true;
+      return this;
     }
     _this = null;
     return false;
@@ -168,7 +168,7 @@ export default class MyTimer {
     _this.start = Date.now();
 		_this.now = Date.now();
     _this = null;
-    this.event.publish("currentTime");
+    this.event.publish("timerReset");
   }
 
   /**

@@ -1,13 +1,15 @@
 /* jshint esversion: 6 */
 
-// TODO: test creating and removing methids
-// TODO test createC
+// TODO test creating and removing methods
 // TODO test real counting
+// TODO return correct values when stepChanged
+// TODO what if direction changes when ccounting?
 
-import Defaults from "../../app/assets/js/mytimer.defaults";
-import Timer from "../../app/assets/js/mytimer.class";
+import Defaults from "../../app/mytimer.defaults";
+import Timer from "../../app/mytimer.class";
 import scenariosInitialise from "../scenarios/timer.scenarios.initialise";
 import scenariosCounting from "../scenarios/timer.scenarios.counting";
+import scenariosChangeStep from "../scenarios/timer.scenarios.changestep";
 
 let defs = new Defaults();
 
@@ -103,7 +105,6 @@ describe("Initialised timer: ", () => {
 		});
 		/** only some countUnits are called */
   });
-
 });
 
 describe("Started timer: ", () => {
@@ -195,4 +196,114 @@ describe("'If' timer was counting (for explanaition of 'if' see the tests' code)
       jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
     });
 });
+});
+
+describe("Timer: ", () => {
+  let timer;
+  beforeEach(() => {
+    timer = new Timer();
+  });
+    it("changes status when started, paused, started and stopped", () => {
+      timer.start();
+      expect(timer.status).toBe(timer._this.statuses.get("counting"));
+      timer.pause();
+      expect(timer.status).toBe(timer._this.statuses.get("paused"));
+      timer.start();
+      expect(timer.status).toBe(timer._this.statuses.get("counting"));
+      timer.stop();
+      expect(timer.status).toBe(timer._this.statuses.get("stopped"));
+    });
+    it("changes status when started, paused and stopped", () => {
+      timer.start();
+      expect(timer.status).toBe(timer._this.statuses.get("counting"));
+      timer.pause();
+      expect(timer.status).toBe(timer._this.statuses.get("paused"));
+      timer.stop();
+      expect(timer.status).toBe(timer._this.statuses.get("stopped"));
+    });
+    it("does not change status to pause when started, stopped and then paused", () => {
+      timer.start();
+      expect(timer.status).toBe(timer._this.statuses.get("counting"));
+      timer.stop();
+      expect(timer.status).toBe(timer._this.statuses.get("stopped"));
+      timer.pause();
+      expect(timer.status).toBe(timer._this.statuses.get("stopped"));
+    });
+    it("allows to chain methods: start, paus and stopp", () => {
+      timer.start().pause().stop();
+      expect(timer.status).toBe(timer._this.statuses.get("stopped"));
+    });
+  afterEach(() => {
+    timer = null;
+  });
+});
+describe("Timer subscribes listeners and: ", () => {
+  let timer;
+  let remove = {};
+  let listener = {
+    started: () => console.log("started"),
+    stopped: () => console.log("stopped"),
+    paused: () => console.log("paused"),
+  };
+  beforeEach(() => {
+    timer = new Timer();
+    spyOn(console, "log");
+  });
+
+    it("publishes events when started, paused and stopped. Listener logs to conscole when event published.", () => {
+      remove.started = timer.event.subscribe(listener, "sessionStarted", "started");
+      remove.paused = timer.event.subscribe(listener, "sessionPaused", "paused");
+      remove.stopped = timer.event.subscribe(listener, "sessionStopped", "stopped");
+      timer.start();
+      expect(console.log).toHaveBeenCalledWith(`started`);
+      timer.pause();
+      expect(console.log).toHaveBeenCalledWith(`paused`);
+      timer.stop();
+      expect(console.log).toHaveBeenCalledWith(`stopped`);
+    });
+
+    it("removes listeners.", () => {
+      remove.started.remove();
+      expect(timer._this.listeners.sessionStarted.length).toBe(0);
+      remove.paused.remove();
+      expect(timer._this.listeners.sessionPaused.length).toBe(0);
+      remove.stopped.remove();
+      expect(timer._this.listeners.sessionStopped.length).toBe(0);
+    });
+
+  afterEach(() => {
+    timer = null;
+  });
+});
+
+describe("Timer: ", () => {
+
+  scenariosChangeStep.sessionStep.forEach((scenario) => {
+    let timer = new Timer();
+
+    /** expected value may be:
+				either incremental (if sceanrio.increment === 1),
+				or brand new (if scenario.increment === 0).
+				*/
+    let expectedValue = timer._this.convert(scenario) + timer.session * scenario.increment;
+		/** change in scenario */
+    let change = `${scenario.value} ${scenario.units}`;
+		/** test description depends on increment value */
+    let word = scenario.increment? "by" : "to";
+    let name = (!scenario.increment)? "sets new value" :
+							(scenario.increment === 1)? "increments" :
+							(scenario.increment === -1)? "decrements" : "wrong scenario";
+
+		it(`${name} session ${word} ${change}`, () => {
+      timer.changeStep(scenario);
+      expect(timer.session).toBe(expectedValue);
+    });
+  });
+
+  scenariosChangeStep.invalidStep.forEach((scenario) => {
+    timer = new Timer();
+    it(`throws error if step is invalid`, () => {
+      expect(() => timer.changeStep(scenario)).toThrowError("Object passed to session is invalid.");
+    });
+  });
 });

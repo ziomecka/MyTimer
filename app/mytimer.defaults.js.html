@@ -1,0 +1,1025 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for C:\Users\Kasia\projekty\current\MyTimer\app\mytimer.defaults.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../../../../../index.html">all files</a> / <a href="index.html">C:/Users/Kasia/projekty/current/MyTimer/app/</a> mytimer.defaults.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">81.05% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>77/95</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">66% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>33/50</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">88.46% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>23/26</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">81.82% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>72/88</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">63×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">46×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">34×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">33×</span>
+<span class="cline-any cline-yes">33×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">102×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">162×</span>
+<span class="cline-any cline-yes">162×</span>
+<span class="cline-any cline-yes">162×</span>
+<span class="cline-any cline-yes">162×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">162×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">34×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">34×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">23×</span>
+<span class="cline-any cline-yes">23×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">90×</span>
+<span class="cline-any cline-yes">34×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">90×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/* jshint esversion: 6 */
+import helpers from "./mytimer.helpers";
+let isNumber = helpers.isNumber;
+let hOP = helpers.hOP;
+&nbsp;
+/**
+ * TODO
+ *
+ * @type {Array}
+ */
+export default class defaults {
+  constructor() {
+    /**
+    * Session - time that is counted down
+    * Interval - interval at which the timer publishes the time.
+     *
+     * @type {Map} Stores default values in milliseconds
+     */
+    this.steps = new Map([
+      ["session", 60000],
+      ["interval", 1]
+    ]);
+&nbsp;
+    /**
+     * Units in milliseconds.
+     *
+     * @type {Map}
+     */
+    this.units = new Map ([
+      ["hours", 3600000],
+      ["minutes", 60000],
+      ["seconds", 1000],
+      ["milliseconds", 1]
+    ]);
+&nbsp;
+    /**
+     * User of timer can set the countUnits as desired.
+     * E.g. only "hours" and "seconds" can be set.
+     * Then the time will be allocated between hours and seconds
+     * (see Create Methods below).
+     *
+     *  The Defaults have all countUnits.
+     *
+     * The countUnits are sorted from the longest to the shortest.
+     * The sorting is important for smoothInterval method.
+     *
+     * @type {Array}
+     */
+    this._countUnits = [
+      "hours",
+      "minutes",
+      "seconds",
+      "milliseconds"
+    ];
+&nbsp;
+    this.statuses = new Map([
+      ["stopped", Symbol("stopped")],
+      ["counting", Symbol("counting")],
+      ["paused", Symbol("paused")]
+    ]);
+&nbsp;
+    this.events = [
+      "currentTime",
+      "sessionChanged",
+      "sessionStarted",
+      "sessionStopped",
+      "sessionPaused",
+      "timerReset"
+    ];
+&nbsp;
+    this.listeners = {};
+&nbsp;
+    /** set status to stop */
+		this.status = this.statuses.get("stopped");
+    this._direction = "down";
+&nbsp;
+    /** Set the initial start and now values */
+    this.start = Date.now();
+		this.now = Date.now();
+&nbsp;
+    this.createConversionMethods();
+    this.time = this.timeCalculation();
+  }
+&nbsp;
+  set countUnits(arr) {
+    /** Are countUnits correct?
+        If true: set MyTimer's countUnits.
+        Else: throw TypeError.
+        */
+    if (Array.isArray(arr) &amp;&amp; arr.every((unit) =&gt; this.unitIsCorrect(unit))) {
+      /** Sort countUnits from the longest to the shortest. */
+      let order = Array.from(this.units.keys());
+      this._countUnits = arr.sort((a, b) =&gt; order.indexOf(a) - order.indexOf(b));
+      order = null;
+      /** adjust methods */ // TODO when adjusting some methods should be deleted
+      this.createConversionMethods();
+    } else {
+      throw TypeError("Timer has not been initialised because of incorrect argument countUnits.");
+    }
+  }
+&nbsp;
+  get countUnits() {
+    return this._countUnits;
+  }
+&nbsp;
+  /** Value should be in milliseconds. */
+  set session(obj) {
+    if (this.verifyStep(obj)) {
+      /** If units are not milliseconds - convert therm to milliseconds. */
+      if (obj.units !== "milliseconds") {
+        this.steps.set("session", this.convert(obj));
+      } else {
+        this.steps.set("session", obj.value);
+      }
+    } else {
+      throw Error("");
+    }
+  }
+&nbsp;
+  /** Has the obj the "value" property?
+      Is the value a Number?
+      Has the obj the "unit" property?
+      Is the unit correct?
+      If all "yes": return true
+      If any "no": return false.
+      */
+  verifyStep(obj) {
+    return hOP(obj, "value") &amp;&amp; // TODO needed??
+           isNumber(obj.value) &amp;&amp;
+           hOP(obj, "units") &amp;&amp; // TODO needed??
+           this.unitIsCorrect(obj.units);
+  }
+&nbsp;
+  get session() {
+    return this.steps.get("session");
+  }
+&nbsp;
+  /** Value should be in milliseconds. */
+  set interval(obj) {
+    if (this.verifyStep(obj)) {
+      /** If units are not milliseconds - convert therm to milliseconds. */
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (obj.units !== "milliseconds") {
+<span class="cstat-no" title="statement not covered" >        this.steps.set("interval", this.convert(obj));</span>
+      } else {
+        this.steps.set("interval", obj.value);
+      }
+    } else {
+      throw Error("");
+    }
+  }
+&nbsp;
+  get interval() {
+    return this.steps.get("interval");
+  }
+&nbsp;
+  get isCounting() {
+    return this.status === this.statuses.get("counting");
+  }
+&nbsp;
+  set isCounting(value) {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (value === true) {  // TODO only in production
+      this.status = this.statuses.get("counting");
+    }
+  }
+&nbsp;
+  get isStopped() {
+<span class="cstat-no" title="statement not covered" >    return this.status === this.statuses.get("stopped");</span>
+  }
+&nbsp;
+  set isStopped(value) {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (value === true) { // TODO only in production
+      this.status = this.statuses.get("stopped");
+    }
+  }
+&nbsp;
+  get isPaused() {
+<span class="cstat-no" title="statement not covered" >    return this.status === this.statuses.get("paused");</span>
+  }
+&nbsp;
+  set isPaused(value) {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (value === true) { // TODO only in production
+      this.status = this.statuses.get("paused");
+    }
+  }
+&nbsp;
+  /** Calculate the elapsed time in milliseconds. */
+  get ellapsed() {
+    return (this.now - this.start);
+    // let value = (this.now - this.start);
+    // value = ((value &gt; 0)? value : 0);
+    // return value;
+  }
+&nbsp;
+  get direction() {
+<span class="cstat-no" title="statement not covered" >    return this._direction;</span>
+  }
+&nbsp;
+  set direction(value) {
+    this._direction = value;
+    this.time = this.timeCalculation();
+  }
+&nbsp;
+  /** If timer counts down
+      return the difference between session's length and the ellapsed time.
+      Else assume that the timer counts up and
+      return the ellapsed time.
+      */
+  timeCalculation() {
+		if (this._direction === "down") {
+      return () =&gt; (this.session - this.ellapsed);
+    } else {
+      return () =&gt; this.ellapsed;
+    }
+  }
+&nbsp;
+  /** Make the interval not longer than the shortest countUnit */
+  smoothInterval()  <span class="fstat-no" title="function not covered" >{</span>
+    /** The shortest countUnit is the last item of the countUnits (because it
+        was sorted). Min store the milliseconds value. */
+    c</span>onst min = <span class="cstat-no" title="statement not covered" >this.countUnits[this.countUnits.length - 1] / 2;
+&nbsp;
+    /** Ensure that the interval is not too long */
+<span class="cstat-no" title="statement not covered" >    if (this.interval &gt; min) {</span>
+      /** make it in milliseconds */
+<span class="cstat-no" title="statement not covered" >      this.interval = min * this.units[unit[0]];</span>
+    }
+  }
+&nbsp;
+  /**
+   * Converts units.
+   *
+   * @param   {Object}   obj with "value" and "units" property
+   * @returns {Number}       value in "units".
+   *                         If argument has not "units" property then
+   *                         return value in milliseconds.
+   */
+  convert(obj) {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if(hOP(obj, "value")) { // TODO poprawic nie tylko tutaj
+      if (!hOP(obj, "units")) {
+        return (obj.value * this.units.get("milliseconds"));
+      } else <span class="missing-if-branch" title="else path not taken" >E</span>if (this.unitIsCorrect
+        (obj.units)) {
+        return (obj.value * this.units.get(obj.units));
+      } else {
+<span class="cstat-no" title="statement not covered" >        console.warn(""); //TODO w trybie programowania</span>
+      }
+    }
+  }
+&nbsp;
+  unitIsCorrect(unit) {
+    return this.units.has(unit);
+  }
+&nbsp;
+  shortestCountUnit(units = this.countUnits) <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span>{</span></span>
+    l</span>et order = <span class="cstat-no" title="statement not covered" >Array.from(this.units.keys()).reverse();
+<span class="cstat-no" title="statement not covered" >    for(let unit of order) <span class="cstat-no" title="statement not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >      if (units.indexOf(unit) &gt;= 0) {</span>
+<span class="cstat-no" title="statement not covered" >        order = null;</span>
+<span class="cstat-no" title="statement not covered" >        return unit;</span>
+      }
+    }
+<span class="cstat-no" title="statement not covered" >    order = null;</span>
+  }
+&nbsp;
+  createConversionMethods() {
+    let arr = this._countUnits;
+    arr.forEach((countUnit) =&gt; {
+      /** get the previous, longer units i.e. if countUnits is "minutes" then get "hours".
+          It is needed because the longer units should have consumed some time.
+          */
+      const index = arr.indexOf(countUnit);
+      const previous = ((index &gt; 0)? arr[index - 1] : null);
+      const unitsPrevious = previous? this.units.get(previous) : null;
+    	const unitsThis = this.units.get(countUnit);
+&nbsp;
+      /**
+       * Create timer's methods that calculate values countUnit.
+       * It is done dynamically because the user can specify the timer countUnits.
+       * E.g. only "hours" and "seconds" can be set.
+       * Then the whole time will be allocated between hours and seconds.
+       *
+       * @type {[type]}
+       * @return {Function}
+       */
+      this[countUnit] = (time) =&gt; {
+        /** Check how much of the calculated time
+            remains after it is allocated to the previous countUnit.
+            E.g. if timer's countUnits include "hours" and "minutes" and
+            the current countUnit is "minutes" then check
+            how much time was allocated to "hours").
+            */
+    		const timeToBeAllocated = ((unitsPrevious !== null)? (time % unitsPrevious) : time);
+        /** Allocate the remaining calculated time to the countUnit. */
+    		return Math.floor((timeToBeAllocated / unitsThis));
+    	};
+    });
+    arr = null;
+  }
+&nbsp;
+  /** For each countUnit create two methods:
+      - returning the ellapsed time (in proper units: hours, minutes etc),
+      - returning the length of the session (in proper units: hours, minutes etc).
+&nbsp;
+      The method is stolen by MyTimer.class (via "call").
+      To access the _countUnits MyTimer passes to the method the hidden object _this.
+      */
+  createTimeMethods(obj = <span class="branch-1 cbranch-no" title="branch not covered" >this) {</span>
+		obj._countUnits.forEach((countUnit, index, arr) =&gt; {
+      /** Create MyTimer's method that returns the ellapsed time. */
+			this[`currentTime_${countUnit}`] = () =&gt; {
+        return obj[countUnit](obj.time());
+      };
+      /** Create MyTimer's method that returns the length of the session. */
+			t</span>his[`sessionLength_${countUnit}`] = () =&gt; <span class="fstat-no" title="function not covered" >{
+<span class="cstat-no" title="statement not covered" >        return obj[countUnit](obj.session);</span>
+      };
+		});
+  }
+}
+&nbsp;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 21 2018 10:51:57 GMT+0100 (Środkowoeuropejski czas stand.)
+</div>
+</div>
+<script src="../../../../../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../../../../../sorter.js"></script>
+</body>
+</html>
