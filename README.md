@@ -2,17 +2,10 @@
 
 JavaScript timer that does not rely on browsers, DOM, or any JavaScript framework.
 
-## Documentation
-_to be described_
-
-<!-- Documentation is here: [http://jasmine.github.io](http://jasmine.github.io/) -->
-
 ## Versions
 
 Versions available:
-<!-- * ES6, -->
-* ES6 with private members (please see the assumptions),
-
+* ES6 with private members (see the [assumptions](#Assumptions)).
 
 ## Installation
 _to be described_
@@ -22,16 +15,32 @@ _to be described_
 npm install mytimer
 ``` -->
 ## MyTimer's settings
-### steps
-object with keys:
-#### session
-object with keys: value and units
-#### interval
-object with keys: value and units
-### countUnits
-array that contains any combination of "hours", "minutes", "seconds", "milliseconds"
-### direction
-string: "down" or "up"
+User can either:
+* pass no settings, then MyTimer will use the defaults,
+* pass an object with required settings.
+
+### Default settings
+```JavaScript
+  steps: {
+    session: {
+      value: 60000,
+      units: "milliseconds"
+    },
+    interval: {
+      value: 1,
+      units: "milliseconds"
+    }
+  },
+  countUnits: ["hours", "minutes", "seconds", "milliseconds"],
+  direction: "down"
+}
+```
+### Miscellaneous
+* MyTimer accepts in "countUnits" any combination of units, e.g.
+```JavaScript
+countUnits: ["hours", "milliseconds"]
+```
+* MyTimer counts either "up" or "down".
 
 ## MyTimer's methods
 _to be described_
@@ -40,29 +49,32 @@ _to be described_
 _to be described_
 
 ## Examples
-### Settings
+### Initialise and start timer
 ```JavaScript
-{
-  steps: {
-    session: {
-      value: 5,
-      units: "minutes"
-    },
-    interval: {
-      value: 1,
-      units: "milliseconds"
-  }
-  },
-  countUnits: ["hours", "milliseconds"],
-  direction: "up"
-  }
-}
+const timer = new MyTimer();
+timer.start();
 ```
-<!-- ```JavaScript
-// mytimer.conf.js
-``` -->
+### Decrease "session" step
+```JavaScript
+timer.changeStep({
+  step: "session",
+  value: 1,
+  units: "minutes",
+  increment: 1,
+  sign: -1
+});
+```
+### Subscribe to "sessionStopped" event
+```JavaScript
+let listner;
+let sessionStopped =  timer.event.subscribe(listener, "sessionStopped", "stopped");
+```
+### Unsubscribe from "sessionStopped" event
+```JavaScript
+sessionStopped.remove();
+```
 
-## Support
+## Questions and support
 
 * For questions and support please send an email to: [katarzyna.ziomek.zdanowicz@gmail.com](mailto:katarzyna.ziomek.zdanowicz@gmail.com)
 
@@ -75,7 +87,7 @@ _to be described_
 I'm a novice JavaScript developer. I coded MyTimer to present my skills and knowledge of:
 * JavaScript (ES5 and ES6),
 * tools and frameworks: jshint, babel, karma, jasmine, webpack, github, npm.
-Moreover, I'm familar with: HTML, CSS, WordPress.
+Moreover, I'm familar with: HTML, CSS, WordPress, AngularJS.
 If you want to learn more about me please visit:  [https://letsbitebytes.com](https://letsbitebytes.com)
 or just write to me: [katarzyna.ziomek.zdanowicz@gmail.com](mailto:katarzyna.ziomek.zdanowicz@gmail.com)
 
@@ -87,7 +99,7 @@ I coded:
 * object oriented application
 * private members that can be trusted (achieved not only by the underscore prefix)
 * ES6 code
-* timet that changes dynamically cdepending on the settings
+* timer that changes dynamically depending on the received settings
 
 ## Acknowledgments
 

@@ -89,6 +89,7 @@ export default class MyTimer {
       _this.events.forEach((event) => listeners[event] = []);
       return {
         subscribe: (listener, eventName, method) => {
+          // TODO check if eventName is correct
           const index = listeners[eventName].push({listener: listener, method: method}) - 1;
           return {
             remove: () => delete listeners[eventName][index]
@@ -184,6 +185,8 @@ export default class MyTimer {
     let step = options.step;
     let newValue = 0;
     let value, sign, increment;
+
+    // TODO increment and sign should be a one parameter
 
     /** check arguments */
     let verifyArgs = function() {
