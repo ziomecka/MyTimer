@@ -5,7 +5,7 @@ JavaScript timer that does not rely on browsers, DOM, or any JavaScript framewor
 ## Versions
 
 Versions available:
-* ES6 with private members (see the [assumptions](#Assumptions)).
+* ES6 with private members (see [my goals](/#my goals)).
 
 ## Installation
 _to be described_
@@ -93,9 +93,8 @@ or just write to me: [katarzyna.ziomek.zdanowicz@gmail.com](mailto:katarzyna.zio
 
 I'm looking for __employement opportunities__. If you are interested in employing me please send an email to: [katarzyna.ziomek.zdanowicz@gmail.com](mailto:katarzyna.ziomek.zdanowicz@gmail.com)
 
-### Assumptions
+### My goals
 
-I coded:
 * object oriented application
 * private members that can be trusted (achieved not only by the underscore prefix)
 * ES6 code
