@@ -5,6 +5,3 @@
     ["add-module-exports"]
   ]
 }
-
-//["transform-runtime", {"polyfill": false, "regenerator": true}],
-//["babel-root-import", {"rootPathSuffix": "src"}],
