@@ -10,7 +10,9 @@
     "analyse": "webpack --config webpack.analyse.babel.js",
     "production": "webpack --config webpack.production.babel.js",
     "test": "babel-node ./node_modules/karma/bin/karma start karma.conf.babel.js",
-    "test-chrome": "babel-node ./node_modules/karma/bin/karma start karma.conf.babel.js --browsers Chrome"
+    "test-chrome": "babel-node ./node_modules/karma/bin/karma start karma.conf.babel.js --browsers Chrome",
+    "testCoverage": "babel-node ./node_modules/karma/bin/karma start karma.conf.coverage.babel.js",
+    "testCoverage-chrome": "babel-node ./node_modules/karma/bin/karma start karma.conf.coverage.babel.js --browsers Chrome"
   },
   "author": "Katarzyna Ziomek-Zdanowicz <katarzyna.ziomek.zdanowicz@gmail.com> (letsbitebytes.com)",
   "license": "MIT",

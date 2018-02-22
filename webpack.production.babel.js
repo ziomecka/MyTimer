@@ -10,7 +10,7 @@ import CleanWebpackPlugin from "clean-webpack-plugin";
 import {BundleAnalyzerPlugin as BundleAnalyzerPlugin} from "webpack-bundle-analyzer";
 
 /** remove istanbul-instrumenter-loader **/
-common.module.rules[0].use.shift();
+// common.module.rules[0].use.shift();
 
 const pathsToClean = ["production"];
 const cleanOptions = {
@@ -24,13 +24,15 @@ const uglifyOptions =  {
   compress: {
     warnings: true,
     dead_code: true,
-    pure_getters: true
+    pure_getters: true,
+    properties: true
   },
   output: {
     comments: false
   },
   exclude: [/\.min\.js$/gi]
 };
+
 const compressionOptions = {
   asset: "[path].gz[query]",
   algorithm: "gzip",
@@ -60,11 +62,15 @@ const settings = merge(common, {
   plugins: [
     new BundleAnalyzerPlugin(bundleAnalyseOptions),
     new CleanWebpackPlugin(pathsToClean, cleanOptions),
+    /**
+     * I do not use new webpack.optimize.UglifyJsPlugin(uglifyOptions)
+     * because of:
+     * https://github.com/webpack-contrib/uglifyjs-webpack-plugin
+    */
     new UglifyJsPlugin({uglifyOptions: uglifyOptions}),
     new CompressionPlugin(compressionOptions),
     new webpack.optimize.CommonsChunkPlugin(chunkOptions),
     new webpack.optimize.AggressiveMergingPlugin(),
-    new webpack.optimize.UglifyJsPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.ModuleConcatenationPlugin()
   ]

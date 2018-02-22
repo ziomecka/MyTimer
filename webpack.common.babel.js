@@ -1,6 +1,14 @@
 /* jshint esversion: 6 */
 import path from "path";
 import webpack from "webpack";
+import CleanWebpackPlugin from "clean-webpack-plugin";
+
+const pathsToClean = ["bundle"];
+const cleanOptions = {
+  verbose:  true,
+  dry:      true,
+  allowExternal: false
+};
 
 const settings = {
   context: path.join(__dirname, "app"),
@@ -12,12 +20,7 @@ const settings = {
     path: path.join(__dirname, "/bundle")
   },
   plugins: [
-    new webpack.SourceMapDevToolPlugin({
-      filename: "myTimer.js.map",
-    }),
-    new webpack.ProvidePlugin({
-      "window.jQuery": "jquery"
-    })
+    new CleanWebpackPlugin(pathsToClean, cleanOptions)
   ],
   resolve: {
     modules: ["node_modules"]
@@ -29,14 +32,11 @@ const settings = {
         enforce: "pre",
         exclude: /(node_modules)|\.spec\.js$/,
         use: [
-          /** istanbul-instrumenter-loader for karma coverage reports **/
-          {
-            loader: "istanbul-instrumenter-loader",
-            options: {produceSourceMap: true}
-          },
           {
             loader: "babel-loader",
-            options: {presets: ["es2015"]}
+            options: {
+              presets: ["es2015"]
+            }
           },
           {
             loader: "jshint-loader"
