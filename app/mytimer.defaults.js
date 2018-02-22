@@ -1,7 +1,7 @@
 /* jshint esversion: 6 */
 import helpers from "./mytimer.helpers";
 import ObjectError from "./mytimer.customerror";
-let isNumber = helpers.isNumber;
+let isPositiveInteger = helpers.isPositiveInteger;
 let hOP = helpers.hOP;
 
 /**
@@ -216,7 +216,7 @@ export default class defaults {
   */
   verifyObject(obj) {
     // TODO step should be only integer
-    if (!isNumber(obj.value)) {
+    if (!isPositiveInteger(obj.value)) {
       throw new ObjectError("Value is not a number");
     }
     if (obj.units && !this.unitIsCorrect(obj.units)) {

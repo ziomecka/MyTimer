@@ -1,7 +1,8 @@
 /* jshint esversion: 6 */
 
-function isNumber(value) {
-  return (typeof value === "number" && !Number.isNaN(value));
+function isPositiveInteger(value) {
+  /* is positive integer ? */
+  return (Number.isInteger(value) && value >= 0);
 }
 
 function hOP(obj, property) {
@@ -13,7 +14,7 @@ function isObject(obj) {
 }
 
 export default {
-  isNumber: isNumber,
+  isPositiveInteger: isPositiveInteger,
   hOP: hOP,
   isObject: isObject
 };
