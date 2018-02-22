@@ -182,61 +182,56 @@ export default class MyTimer {
   * Changes value of step (interval, session).
   *
   * @param   {object}   options Object with mandatory properties:
-  *                             "step", "value" and "units" and
+  *                             "step", "value" and
   *                             optional properties:
-  *                             "sign" and "increment".
+  *                             "units", "sign" and "increment".
   */
   changeStep(options) {
     let _this = _privateObjects.get(this);
     let step = options.step;
-    let newValue = 0;
-    let value, sign, increment;
 
-    // TODO increment and sign should be a one parameter
+    /** Check options received */
+    if ((_this.steps.has(step)) && options) {
+      let value, sign, increment;
 
-    /** check arguments */
-    let verifyArgs = function() {
-      if ((_this.steps.has(step)) && options && options.value && options.units) {
-        /** get options */
-        ({value: value, sign: sign = 1, increment: increment = 0} = options);
-        /** if options units !== "milliseconds" then convert to milliseconds */
-        if (options.units !== "milliseconds") value = _this.convert(options);
-        /** if sign is neither 1 nor -1, make it 1 */
-        if (!sign || Math.abs(sign) !== 1) sign = 1;
-        /** if increment is neither 0 nor 1, make it 0 */
-        if (!increment || (increment !== 0 && increment !== 1)) increment = 0;
-        /** calculate newSession by adding / substracting value */
-        value = value * sign;
-        return true;
-      }
-    };
+      /** Get options values */
+      ({sign: sign, increment: increment} = options);
 
-    /** steps' procedures */
-    let stepProcedure = {
-      "session": (value) => {
-        /** session length cannot be shorter than the time ellapsed */
-        if (_this.isCounting && (value > (_this.ellapsed))) {
-          _this[step] = value;
-        } else {
-          _this[step] = value;
+      /** if sign is neither 1 nor -1, make it 1 */
+      if (sign !== 1 && sign !== -1) sign = 1;
+
+      /** if increment is neither 0 nor 1, make it 0 */
+      if (increment !== 0 && increment !== 1) increment = 0;
+
+      /** Calculate new step value: include current value if increment === 1 and
+          add / substract new value depending on the sign.
+          The convert method will check if the value and units are correct.
+          */
+      value = _this.convert(options) * sign + _this[step] * increment;
+
+      /** Steps' procedures */
+      let stepProcedure = {
+        "session": (value) => {
+          /** session length cannot be shorter than the time ellapsed */
+          if (_this.isCounting && (value > (_this.ellapsed))) {
+            _this[step] = {value: value};
+          } else {
+            _this[step] = {value: value};
+          }
+          this.event.publish("sessionChanged");
+          this.event.publish("currentTime");
+        },
+        "interval": () => {
+          // TODO
         }
-        this.event.publish("sessionChanged");
-        this.event.publish("currentTime");
-      },
-      "interval": () => {
-        // TODO
-      }
-    };
+      };
 
-    /** if arguments are correct */
-    if(verifyArgs()) {
-      newValue = (increment? (_this[step] + value) : value);
-      newValue = newValue > 0? newValue : 0;
-      /** perform procedure for particular step */
-      stepProcedure[step](newValue);
+      stepProcedure[step](value);
+
     } else {
-      console.warn("Step has not been changed becuse of incorrect arguments.");
+      throw Error ("Step has not been changed becuse of incorrect arguments.");
     }
+
     /** garbage collect */
     _this = null;
 	}

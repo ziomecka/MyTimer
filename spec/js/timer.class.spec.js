@@ -316,14 +316,18 @@ describe("Timer: ", () => {
 				either incremental (if sceanrio.increment === 1),
 				or brand new (if scenario.increment === 0).
 				*/
-    let expectedValue = timer._this.convert(scenario) + timer.session * scenario.increment;
+		let scenarioI = scenario.increment;
+    let scenarioS = scenario.sign;
+		let increment = (scenarioI === 1 || scenarioI === 0)? scenarioI : 0;
+    let sign = (scenarioS === 1 || scenarioS === -1)? scenarioS : 1;
+    let expectedValue = timer._this.convert(scenario) * sign + timer.session * increment;
 		/** change in scenario */
     let change = `${scenario.value} ${scenario.units}`;
 		/** test description depends on increment value */
-    let word = scenario.increment? "by" : "to";
-    let name = (!scenario.increment)? "sets new value" :
-							(scenario.increment === 1)? "increments" :
-							(scenario.increment === -1)? "decrements" : "wrong scenario";
+    let word = increment? "by" : "to";
+    let name = (!increment)? "sets new value" :
+							(increment === 1)? "increments" :
+							(increment === -1)? "decrements" : "wrong scenario";
 
 		it(`${name} session ${word} ${change}`, () => {
       timer.changeStep(scenario);
