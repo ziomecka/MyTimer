@@ -251,6 +251,7 @@ export default class defaults {
     return (obj.value * this.units.get(obj.units));
   }
 
+  // TODO may be skipped because I call this.units in convert???
   unitIsCorrect(unit) {
     return this.units.has(unit);
   }
