@@ -9,8 +9,8 @@ import CompressionPlugin from "compression-webpack-plugin";
 import CleanWebpackPlugin from "clean-webpack-plugin";
 import {BundleAnalyzerPlugin as BundleAnalyzerPlugin} from "webpack-bundle-analyzer";
 
-/** remove istanbul-instrumenter-loader **/
-// common.module.rules[0].use.shift();
+/** remove CleanWebpackPlugin for bundle **/
+common.plugins.unshift();
 
 const pathsToClean = ["production"];
 const cleanOptions = {
@@ -32,7 +32,6 @@ const uglifyOptions =  {
   },
   exclude: [/\.min\.js$/gi]
 };
-
 const compressionOptions = {
   asset: "[path].gz[query]",
   algorithm: "gzip",

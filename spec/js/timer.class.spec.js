@@ -3,6 +3,7 @@
 // TODO test creating and removing methods
 // TODO test real counting
 // TODO return correct values when stepChanged
+// TODO test passing negative values - error expected
 // TODO what if direction changes when ccounting?
 
 import Defaults from "../../app/mytimer.defaults";

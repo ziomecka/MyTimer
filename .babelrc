@@ -3,6 +3,5 @@
 	"plugins": [
     ["syntax-dynamic-import"],
     ["add-module-exports"]
-  ],
-  "ignore": ["**/*.customerror.js"]
+  ]
 }
