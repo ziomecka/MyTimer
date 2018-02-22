@@ -22,7 +22,7 @@ module.exports = {
       }
     }
   },
-  invalidDisplayUnits: {
+  "invalid count units": {
     steps: {
       session: {
         value: 17,
@@ -35,8 +35,8 @@ module.exports = {
     },
     countUnits: ["invalid", "minutes", "seconds", "milliseconds"]
   },
-  invalid: {
-    "session units": {
+  "invalid units": {
+    "Session": {
       steps: {
         session: {
           value: 17,
@@ -49,7 +49,22 @@ module.exports = {
       },
       countUnits: ["hours", "minutes", "seconds", "milliseconds"]
     },
-    "session value": {
+    "Interval": {
+      steps: {
+        session: {
+          value: 17,
+          units: "milliseconds"
+        },
+        interval: {
+          value: 21,
+          units: "invalid"
+        }
+      },
+      countUnits: ["hours", "minutes", "seconds", "milliseconds"]
+    },
+  },
+  "invalid values": {
+    "Session": {
       steps: {
         session: {
           value: "17",
@@ -62,20 +77,7 @@ module.exports = {
       },
       countUnits: ["hours", "minutes", "seconds", "milliseconds"]
     },
-    "interval units": {
-      steps: {
-        session: {
-          value: 17,
-          units: "milliseconds"
-        },
-        interval: {
-          value: 21,
-          units: "invalid"
-        }
-      },
-      countUnits: ["hours", "minutes", "seconds", "milliseconds"]
-    },
-    "interval value": {
+    "Interval": {
       steps: {
         session: {
           value: 17,
@@ -89,8 +91,8 @@ module.exports = {
       countUnits: ["hours", "minutes", "seconds", "milliseconds"]
     }
   },
-  lack: {
-    "session units": {
+  "lack of units": {
+    "Session": {
       steps: {
         session: {
           value: 17
@@ -102,19 +104,7 @@ module.exports = {
       },
       countUnits: ["hours", "minutes", "seconds", "milliseconds"]
     },
-    "session value": {
-      steps: {
-        session: {
-          units: "milliseconds"
-        },
-        interval: {
-          value: 17,
-          units: "milliseconds"
-        }
-      },
-      countUnits: ["hours", "minutes", "seconds", "milliseconds"]
-    },
-    "interval units": {
+    "Interval": {
       steps: {
         session: {
           value: 17,
@@ -126,7 +116,21 @@ module.exports = {
       },
       countUnits: ["hours", "minutes", "seconds", "milliseconds"]
     },
-    "interval value": {
+  },
+  "lack of value": {
+    "Session": {
+      steps: {
+        session: {
+          units: "milliseconds"
+        },
+        interval: {
+          value: 17,
+          units: "milliseconds"
+        }
+      },
+      countUnits: ["hours", "minutes", "seconds", "milliseconds"]
+    },
+    "Interval": {
       steps: {
         session: {
           value: 17,

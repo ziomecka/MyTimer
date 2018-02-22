@@ -1,5 +1,6 @@
 /* jshint esversion: 6 */
 import helpers from "./mytimer.helpers";
+import ObjectError from "./mytimer.customerror";
 let isNumber = helpers.isNumber;
 let hOP = helpers.hOP;
 
@@ -103,34 +104,15 @@ export default class defaults {
     return this._countUnits;
   }
 
-  /** Value should be in milliseconds. */
+  /** Value should be in milliseconds. TODO */
   set session(obj) {
-    if (this.verifyStep(obj)) {
-      /** If units are not milliseconds - convert therm to milliseconds. */
-      if (obj.units !== "milliseconds") {
-        this.steps.set("session", this.convert(obj));
-      } else {
-        this.steps.set("session", obj.value);
-      }
-    } else {
-      throw Error("Object passed to session is invalid.");
+    try {
+      this.steps.set("session", this.convert(obj));
+    } catch (e) {
+      throw new ObjectError (`Session step: ${e.message}.`);
     }
   }
 
-  /** Has the obj the "value" property?
-      Is the value a Number?
-      Has the obj the "unit" property?
-      Is the unit correct?
-      If all "yes": return true
-      If any "no": return false.
-      */
-     // TODO step should be only integer
-  verifyStep(obj) {
-    return hOP(obj, "value") && // TODO needed??
-           isNumber(obj.value) &&
-           hOP(obj, "units") && // TODO needed??
-           this.unitIsCorrect(obj.units);
-  }
 
   get session() {
     return this.steps.get("session");
@@ -138,15 +120,10 @@ export default class defaults {
 
   /** Value should be in milliseconds. */
   set interval(obj) {
-    if (this.verifyStep(obj)) {
-      /** If units are not milliseconds - convert therm to milliseconds. */
-      if (obj.units !== "milliseconds") {
-        this.steps.set("interval", this.convert(obj));
-      } else {
-        this.steps.set("interval", obj.value);
-      }
-    } else {
-      throw Error("Object passed to interval is invalid.");
+    try {
+      this.steps.set("interval", this.convert(obj));
+    } catch (e) {
+      throw new ObjectError(`Interval step: ${e.message}.`);
     }
   }
 
@@ -226,6 +203,27 @@ export default class defaults {
       this.interval = min * this.units[unit[0]];
     }
   }
+  /**
+  * Check: Has the obj the "value" property?
+  *        Is the "value" property a Number?
+  *        If the obj has the "unit" property then is it correct?
+  *
+  * @param   {Object}   obj  Object
+  * @returns {Boolean}       If "value" is a number and
+  *                              "units" are correct or there are no "units"
+  *                              return true
+  *                          Else throw Errors
+  */
+  verifyObject(obj) {
+    // TODO step should be only integer
+    if (!isNumber(obj.value)) {
+      throw new ObjectError("Value is not a number");
+    }
+    if (obj.units && !this.unitIsCorrect(obj.units)) {
+      throw new ObjectError("Unit is incorrect");
+    }
+    return true;
+  }
 
   /**
    * Converts units.
@@ -235,17 +233,19 @@ export default class defaults {
    *                         If argument has not "units" property then
    *                         return value in milliseconds.
    */
-  convert(obj) {
-    if(hOP(obj, "value")) { // TODO poprawic nie tylko tutaj
-      if (!hOP(obj, "units")) {
-        return (obj.value * this.units.get("milliseconds"));
-      } else if (this.unitIsCorrect
-        (obj.units)) {
-        return (obj.value * this.units.get(obj.units));
-      } else {
-        console.warn(""); //TODO w trybie programowania
-      }
+  convert(obj, step) {
+    try {
+      this.verifyObject(obj);
+    } catch (e) {
+      throw e;
     }
+
+    // TODO only for development, not in production??
+    if (!obj.units) {
+      console.warn(`Since no units were given,
+                    it was assumed that the value was given in milliseconds`);
+    }
+    return (obj.value * this.units.get(obj.units || "milliseconds"));
   }
 
   unitIsCorrect(unit) {

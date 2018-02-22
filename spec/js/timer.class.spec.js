@@ -15,8 +15,8 @@ let defs = new Defaults();
 
 describe("Initialised timer: ", () => {
 
-  it(`called with invalid display units throws type error`, () => {
-    let arg = "invalidDisplayUnits";
+  it(`called with invalid countUnits throws type error`, () => {
+    let arg = "invalid count units";
     let callTimer = (arg) => new Timer(arg);
     expect(() => callTimer(scenariosInitialise[arg]))
       .toThrow(new TypeError("Timer has not been initialised because of incorrect argument countUnits."));
@@ -81,29 +81,60 @@ describe("Initialised timer: ", () => {
       });
     });
 
-		/** test for invalid arguments */
-		let invalid = scenariosInitialise.invalid;
-		let invalidValues = Object.keys(invalid);
+		/** test for invalid units */
+		let invalidUnitsScenarios = scenariosInitialise["invalid units"];
+		let invalidUnits = Object.keys(invalidUnitsScenarios);
+		invalidUnits.forEach((invalidUnit) => {
+			it(`with invalid units for ${invalidUnit} has units in milliseconds.
+				Remaining steps have values as provided in arguments.`, () => {
+				let timer = new Timer(invalidUnitsScenarios[invalidUnit])._this;
+				expect(console.warn).toHaveBeenCalledWith(`Timer has been initialised with different values than those specified in constructor's call.
+                              It is due to the received error:
+                              '${invalidUnit} step: Unit is incorrect.'`);
+				expect(checkValues(timer, invalidUnitsScenarios[invalidUnit])).toBe(true);
+			});
+		});
+
+		/** test for invalid values */
+		let invalidValuesScenarios = scenariosInitialise["invalid values"];
+		let invalidValues = Object.keys(invalidValuesScenarios);
 		invalidValues.forEach((invalidValue) => {
-			it(`with invalid ${invalidValue} has default ${invalidValue}.
+			it(`with invalid units for ${invalidValue} has units in milliseconds.
 				Remaining steps have values as provided in arguments.`, () => {
-				let timer = new Timer(invalid[invalidValue])._this;
-				expect(console.warn).toHaveBeenCalledWith(`Timer has been initialised with different values than those specified in constructor's call.`);
-				expect(checkValues(timer, invalid[invalidValue])).toBe(true);
+				let timer = new Timer(invalidValuesScenarios[invalidValue])._this;
+				expect(console.warn).toHaveBeenCalledWith(`Timer has been initialised with different values than those specified in constructor's call.
+                              It is due to the received error:
+                              '${invalidValue} step: Value is not a number.'`);
+				expect(checkValues(timer, invalidValuesScenarios[invalidValue])).toBe(true);
 			});
 		});
-		/** test for lack of arguments */
-		let lack = scenariosInitialise.lack;
-		let lackOfValues = Object.keys(lack);
-		invalidValues.forEach((lackValue) => {
-			it(`with lack of ${lackValue} has default ${lackValue}.
+
+		/** test for lack of units */
+		let lackOfUnitsScenarios = scenariosInitialise["lack of units"];
+		let lackOfUnits = Object.keys(lackOfUnitsScenarios);
+		lackOfUnits.forEach((lackOfUnit) => {
+			it(`with lack of ${lackOfUnit}'s units assumes 'milliseconds'.
 				Remaining steps have values as provided in arguments.`, () => {
-				let timer = new Timer(lack[lackValue])._this;
-				expect(console.warn).toHaveBeenCalledWith(`Timer has been initialised with different values than those specified in constructor's call.`);
-				expect(checkValues(timer, lack[lackValue])).toBe(true);
+				let timer = new Timer(lackOfUnitsScenarios[lackOfUnit])._this;
+				expect(console.warn).toHaveBeenCalledWith(`Since no units were given,
+                    it was assumed that the value was given in milliseconds`);
+				expect(checkValues(timer, lackOfUnitsScenarios[lackOfUnit])).toBe(true);
 			});
 		});
-		/** only some countUnits are called */
+
+		/** test for lack of values */
+		let lackOfValuesScenarios = scenariosInitialise["lack of value"];
+		let lackOfValues = Object.keys(lackOfValuesScenarios);
+		lackOfValues.forEach((lackOfValue) => {
+			it(`with lack of ${lackOfValue}'s value has default value.
+				Remaining steps have values as provided in arguments.`, () => {
+				let timer = new Timer(lackOfValuesScenarios[lackOfValue])._this;
+				expect(console.warn).toHaveBeenCalledWith(`Timer has been initialised with different values than those specified in constructor's call.
+                              It is due to the received error:
+                              '${lackOfValue} step: Value is not a number.'`);
+				expect(checkValues(timer, lackOfValuesScenarios[lackOfValue])).toBe(true);
+			});
+		});
   });
 });
 

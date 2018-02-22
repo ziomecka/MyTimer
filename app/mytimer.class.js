@@ -2,6 +2,8 @@
 import "babel-polyfill";
 import Defaults from "./mytimer.defaults";
 import helpers from "./mytimer.helpers";
+import ObjectError from "./mytimer.customerror";
+
 let hOP = helpers.hOP;
 let isObject = helpers.isObject;
 
@@ -54,7 +56,11 @@ export default class MyTimer {
               }
             } catch(e) {
               /** Warn: initialised with defaults. */
-              console.warn(`Timer has been initialised with different values than those specified in constructor's call.`);
+              if (e.constructor === ObjectError) {
+                console.warn(`Timer has been initialised with different values than those specified in constructor's call.
+                              It is due to the received error:
+                              '${e.message}'`);
+              }
             }
           } else {
             /** Warn: initialised with defaults. */
