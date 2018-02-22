@@ -209,29 +209,38 @@ export default class defaults {
   *        If the obj has the "unit" property then is it correct?
   *
   * @param   {Object}   obj  Object
-  * @returns {Boolean}       If "value" is a number and
-  *                              "units" are correct or there are no "units"
-  *                              return true
-  *                          Else throw Errors
+  * @returns {Boolean}       If "value" is a positive integer and
+  *                              "units" are correct return true.
+  *                          If there are no "units" assume milliseconds and
+  *                          warn in console and return true.
+  *                          Else throw custom errors.
   */
   verifyObject(obj) {
-    // TODO step should be only integer
-    if (!isPositiveInteger(obj.value)) {
-      throw new ObjectError("Value is not a number");
+    if (isPositiveInteger(obj.value)) {
+      if (obj.units) {
+        if (this.unitIsCorrect(obj.units)) {
+          return true;
+        } else {
+          throw new ObjectError("Units are incorrect");
+        }
+      } else {
+        obj.units = "milliseconds";
+        // TODO only for development, not in production??
+        console.warn(`Since no units were given, it was assumed that the value was given in milliseconds`);
+        return true;
+      }
+    } else {
+      throw new ObjectError("Value is not an integer");
     }
-    if (obj.units && !this.unitIsCorrect(obj.units)) {
-      throw new ObjectError("Unit is incorrect");
-    }
-    return true;
   }
 
   /**
    * Converts units.
    *
    * @param   {Object}   obj with "value" and "units" property
-   * @returns {Number}       value in "units".
+   * @returns {Number}       value in milliseconds.
    *                         If argument has not "units" property then
-   *                         return value in milliseconds.
+   *                         the "verifyObject" method will assume "milliseconds".
    */
   convert(obj, step) {
     try {
@@ -239,13 +248,7 @@ export default class defaults {
     } catch (e) {
       throw e;
     }
-
-    // TODO only for development, not in production??
-    if (!obj.units) {
-      console.warn(`Since no units were given,
-                    it was assumed that the value was given in milliseconds`);
-    }
-    return (obj.value * this.units.get(obj.units || "milliseconds"));
+    return (obj.value * this.units.get(obj.units));
   }
 
   unitIsCorrect(unit) {

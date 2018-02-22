@@ -30,14 +30,14 @@ const scenarios = {
     {
       step: "session",
       value: 1,
-      units: "hour",
+      units: "hours",
       increment: 0
     },
     {
       step: "session",
       value: 10,
       units: "minutes",
-      increment: 0,
+      increment: 1,
       sign: -1
     }
   ],

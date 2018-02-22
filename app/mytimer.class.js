@@ -212,22 +212,36 @@ export default class MyTimer {
       /** Steps' procedures */
       let stepProcedure = {
         "session": (value) => {
-          /** session length cannot be shorter than the time ellapsed */
-          if (_this.isCounting && (value > (_this.ellapsed))) {
+          let setSession = (value) => {
             _this[step] = {value: value};
-          } else {
-            _this[step] = {value: value};
+            this.event.publish("sessionChanged");
+            this.event.publish("currentTime");
+          };
+
+          /** set the session's length if:
+              - timer is not counting, or
+              - timer is counting && the session length is longer than the time ellapsed.
+              Check sign because Mytimer.defaults' session setter would throw error
+              if value is negative:
+              - if value is positive or zero: set session
+              - if value is negative but timer's session is positive
+                then make the session zero
+                (e.g timer has still 4 minutes,the session is decreased by 5 to -1, then make the session zero)
+                */
+          if (!_this.isCounting || (_this.isCounting && value > _this.ellapsed)) {
+            if (value >= 0) {
+              setSession(value);
+            } else if (value < 0 && this.session > 0) {
+              setSession(0);
+            }
           }
-          this.event.publish("sessionChanged");
-          this.event.publish("currentTime");
+          setSession = null;
         },
         "interval": () => {
           // TODO
         }
       };
-
       stepProcedure[step](value);
-
     } else {
       throw Error ("Step has not been changed becuse of incorrect arguments.");
     }

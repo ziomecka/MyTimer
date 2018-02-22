@@ -91,7 +91,7 @@ describe("Initialised timer: ", () => {
 				let timer = new Timer(invalidUnitsScenarios[invalidUnit])._this;
 				expect(console.warn).toHaveBeenCalledWith(`Timer has been initialised with different values than those specified in constructor's call.
                               It is due to the received error:
-                              '${invalidUnit} step: Unit is incorrect.'`);
+                              '${invalidUnit} step: Units are incorrect.'`);
 				expect(checkValues(timer, invalidUnitsScenarios[invalidUnit])).toBe(true);
 			});
 		});
@@ -105,7 +105,7 @@ describe("Initialised timer: ", () => {
 				let timer = new Timer(invalidValuesScenarios[invalidValue])._this;
 				expect(console.warn).toHaveBeenCalledWith(`Timer has been initialised with different values than those specified in constructor's call.
                               It is due to the received error:
-                              '${invalidValue} step: Value is not a number.'`);
+                              '${invalidValue} step: Value is not an integer.'`);
 				expect(checkValues(timer, invalidValuesScenarios[invalidValue])).toBe(true);
 			});
 		});
@@ -117,8 +117,7 @@ describe("Initialised timer: ", () => {
 			it(`with lack of ${lackOfUnit}'s units assumes 'milliseconds'.
 				Remaining steps have values as provided in arguments.`, () => {
 				let timer = new Timer(lackOfUnitsScenarios[lackOfUnit])._this;
-				expect(console.warn).toHaveBeenCalledWith(`Since no units were given,
-                    it was assumed that the value was given in milliseconds`);
+				expect(console.warn).toHaveBeenCalledWith(`Since no units were given, it was assumed that the value was given in milliseconds`);
 				expect(checkValues(timer, lackOfUnitsScenarios[lackOfUnit])).toBe(true);
 			});
 		});
@@ -132,7 +131,7 @@ describe("Initialised timer: ", () => {
 				let timer = new Timer(lackOfValuesScenarios[lackOfValue])._this;
 				expect(console.warn).toHaveBeenCalledWith(`Timer has been initialised with different values than those specified in constructor's call.
                               It is due to the received error:
-                              '${lackOfValue} step: Value is not a number.'`);
+                              '${lackOfValue} step: Value is not an integer.'`);
 				expect(checkValues(timer, lackOfValuesScenarios[lackOfValue])).toBe(true);
 			});
 		});
@@ -332,14 +331,14 @@ describe("Timer: ", () => {
 
 		it(`${name} session ${word} ${change}`, () => {
       timer.changeStep(scenario);
-      expect(timer.session).toBe(expectedValue);
+      expect(timer.session).toBe(expectedValue > 0? expectedValue : 0);
     });
   });
 
   scenariosChangeStep.invalidStep.forEach((scenario) => {
-    timer = new Timer();
+    let timer = new Timer();
     it(`throws error if step is invalid`, () => {
-      expect(() => timer.changeStep(scenario)).toThrowError("Object passed to session is invalid.");
+      expect(() => timer.changeStep(scenario)).toThrowError("Step has not been changed becuse of incorrect arguments.");
     });
   });
 });
