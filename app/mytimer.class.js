@@ -4,7 +4,6 @@ import Defaults from "./mytimer.defaults";
 import helpers from "./mytimer.helpers";
 import ObjectError from "./mytimer.customerror";
 
-let hOP = helpers.hOP;
 let isObject = helpers.isObject;
 
 /** @type {WeakMap} Used to store private objects */
@@ -37,7 +36,7 @@ export default class MyTimer {
     /** verify arguments */
     if (timerOptions && isObject(timerOptions)) {
       /** verify session and interval steps */
-      if (hOP(timerOptions, "steps") && isObject(timerOptions.steps)) {
+      if (isObject(timerOptions.steps)) {
         for (let step of _this.steps.keys()) {
           let options = timerOptions.steps[step];
           /** Check:
@@ -71,15 +70,20 @@ export default class MyTimer {
         }
       }
 
-      /** Reveal MyTimer's counting direction */
-      if (hOP(timerOptions, "direction")) _this.direction = timerOptions.direction;
+      /** Set MyTimer's counting direction */
+      try {
+        _this.direction = timerOptions.direction;
+      } catch (e) {
+        /** Warn: initialised with defaults. */
+        console.warn(`Timer has been initialised with different values than those specified in constructor's call.`);
+      }
 
       /** Are countUnits provided in arguments? */ // TODO is the check needed??
-      if (hOP(timerOptions, "countUnits")) {
         try {
           _this.countUnits = timerOptions.countUnits;
         } catch (e) {
-          throw e;
+          if (e.constructor === ObjectError) {
+            console.warn(`Timer has been initialised with different values than those specified in constructor's call.`);
         }
       }
     }
