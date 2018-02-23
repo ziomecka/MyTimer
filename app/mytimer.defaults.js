@@ -2,7 +2,6 @@
 import helpers from "./mytimer.helpers";
 import ObjectError from "./mytimer.customerror";
 let isPositiveInteger = helpers.isPositiveInteger;
-let hOP = helpers.hOP;
 
 /**
  * TODO
@@ -84,11 +83,13 @@ export default class defaults {
   }
 
   set countUnits(arr) {
-    /** Are countUnits correct?
+    /** Are countUnits correct:
+        - non empty array?
+        - valid units?
         If true: set MyTimer's countUnits.
-        Else: throw TypeError.
+        Else: throw ObjectError.
         */
-    if (Array.isArray(arr) && arr.every((unit) => this.unitIsCorrect(unit))) {
+    if (Array.isArray(arr) && arr.length > 0 && arr.every((unit) => this.unitIsCorrect(unit))) {
       /** Sort countUnits from the longest to the shortest. */
       let order = Array.from(this.units.keys());
       this._countUnits = arr.sort((a, b) => order.indexOf(a) - order.indexOf(b));
@@ -96,7 +97,7 @@ export default class defaults {
       /** adjust methods */ // TODO when adjusting some methods should be deleted
       this.createConversionMethods();
     } else {
-      throw TypeError("Timer has not been initialised because of incorrect argument countUnits.");
+      throw new ObjectError ("Timer has not been initialised because of incorrect argument countUnits.");
     }
   }
 
@@ -112,7 +113,6 @@ export default class defaults {
       throw new ObjectError (`Session step: ${e.message}.`);
     }
   }
-
 
   get session() {
     return this.steps.get("session");
@@ -174,8 +174,12 @@ export default class defaults {
   }
 
   set direction(value) {
-    this._direction = value;
-    this.time = this.timeCalculation();
+    if (typeof value === "string") {
+      this._direction = value;
+      this.time = this.timeCalculation();
+    } else {
+      throw new ObjectError ("Timer has not been initialised because of incorrect argument countUnits.");
+    }
   }
 
   /** If timer counts down
