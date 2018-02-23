@@ -1,14 +1,5 @@
 /* jshint esversion: 6 */
 import path from "path";
-import webpack from "webpack";
-import CleanWebpackPlugin from "clean-webpack-plugin";
-
-const pathsToClean = ["bundle"];
-const cleanOptions = {
-  verbose:  true,
-  dry:      true,
-  allowExternal: false
-};
 
 const settings = {
   context: path.join(__dirname, "app"),
@@ -19,9 +10,6 @@ const settings = {
     filename: "./myTimer.bundle.js",
     path: path.join(__dirname, "/bundle")
   },
-  plugins: [
-    new CleanWebpackPlugin(pathsToClean, cleanOptions)
-  ],
   resolve: {
     modules: ["node_modules"]
   },

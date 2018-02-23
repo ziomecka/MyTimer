@@ -11,6 +11,7 @@ const settings = {
   frameworks: ["jasmine-jquery", "jasmine"],
   browsers: ["Chrome", "Firefox"],
   hostname: "localhost",
+  autoWatch: true,
   port: 8082,
   retryLimit: 0,
   browserDisconnectTimeout: 99000,

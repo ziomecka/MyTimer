@@ -9,9 +9,6 @@ import CompressionPlugin from "compression-webpack-plugin";
 import CleanWebpackPlugin from "clean-webpack-plugin";
 import {BundleAnalyzerPlugin as BundleAnalyzerPlugin} from "webpack-bundle-analyzer";
 
-/** remove CleanWebpackPlugin for bundle **/
-common.plugins.unshift();
-
 const pathsToClean = ["production"];
 const cleanOptions = {
   verbose:  true,

@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "babel": "babel --presets=es2015 ./app -d ./lib",
-    "bundle": "webpack --config webpack.common.babel.js",
-    "prewatch": "webpack --config webpack.common.babel.js",
+    "bundle": "webpack --config webpack.bundle.babel.js",
+    "prewatch": "webpack --config webpack.bundle.babel.js",
     "watch": "webpack-dev-server --color --progress --config webpack.dev.babel.js",
     "analyse": "webpack --config webpack.analyse.babel.js",
     "production": "webpack --config webpack.production.babel.js",
