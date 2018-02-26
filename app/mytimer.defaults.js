@@ -1,6 +1,8 @@
 /* jshint esversion: 6 */
 import helpers from "./mytimer.helpers";
 import ObjectError from "./mytimer.customerror";
+import messages from "./mytimer.messages";
+
 let isPositiveInteger = helpers.isPositiveInteger;
 
 /**
@@ -97,7 +99,7 @@ export default class defaults {
       /** adjust methods */ // TODO when adjusting some methods should be deleted
       this.createConversionMethods();
     } else {
-      throw new ObjectError ("Timer has not been initialised because of incorrect argument countUnits.");
+      throw new ObjectError (messages.notInitialisedCountUnits);
     }
   }
 
@@ -131,31 +133,31 @@ export default class defaults {
     return this.steps.get("interval");
   }
 
-  get isCounting() {
+  get is_counting() {
     return this.status === this.statuses.get("counting");
   }
 
-  set isCounting(value) {
+  set is_counting(value) {
     if (value === true) {  // TODO only in production
       this.status = this.statuses.get("counting");
     }
   }
 
-  get isStopped() {
+  get is_stopped() {
     return this.status === this.statuses.get("stopped");
   }
 
-  set isStopped(value) {
+  set is_stopped(value) {
     if (value === true) { // TODO only in production
       this.status = this.statuses.get("stopped");
     }
   }
 
-  get isPaused() {
+  get is_paused() {
     return this.status === this.statuses.get("paused");
   }
 
-  set isPaused(value) {
+  set is_paused(value) {
     if (value === true) { // TODO only in production
       this.status = this.statuses.get("paused");
     }
@@ -178,7 +180,7 @@ export default class defaults {
       this._direction = value;
       this.time = this.timeCalculation();
     } else {
-      throw new ObjectError ("Timer has not been initialised because of incorrect argument countUnits.");
+      throw new ObjectError (messages.initialisedWithDefaults);
     }
   }
 
@@ -230,11 +232,11 @@ export default class defaults {
       } else {
         obj.units = "milliseconds";
         // TODO only for development, not in production??
-        console.warn(`Since no units were given, it was assumed that the value was given in milliseconds`);
+        console.warn(messages.millisecondsAssumed);
         return true;
       }
     } else {
-      throw new ObjectError("Value is not an integer");
+      throw new ObjectError(messages.notPositiveInteger);
     }
   }
 
@@ -263,7 +265,7 @@ export default class defaults {
   shortestCountUnit(units = this.countUnits) {
     let order = Array.from(this.units.keys()).reverse();
     for(let unit of order) {
-      if (units.indexOf(unit) >= 0) {
+      if (units.includes(unit)) {
         order = null;
         return unit;
       }
