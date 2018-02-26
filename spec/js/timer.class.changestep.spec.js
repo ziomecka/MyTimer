@@ -10,6 +10,7 @@
 import Defaults from "../../app/mytimer.defaults";
 import Timer from "../../app/mytimer.class";
 import scenariosChangeStep from "../scenarios/timer.scenarios.changestep";
+import messages from "../../app/mytimer.messages";
 
 let defs = new Defaults();
 
@@ -44,7 +45,7 @@ describe("Timer: ", () => {
   scenariosChangeStep.invalidStep.forEach((scenario) => {
     let timer = new Timer();
     it(`throws error if step is invalid`, () => {
-      expect(() => timer.changeStep(scenario)).toThrowError("Step has not been changed becuse of incorrect arguments.");
+      expect(() => timer.changeStep(scenario)).toThrowError(messages.stepNotChanged);
     });
   });
 });
