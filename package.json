@@ -15,6 +15,10 @@
     "coverage-chrome": "babel-node ./node_modules/karma/bin/karma start karma.conf.coverage.babel.js --browsers Chrome"
   },
   "author": "Katarzyna Ziomek-Zdanowicz <katarzyna.ziomek.zdanowicz@gmail.com> (letsbitebytes.com)",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/ziomecka/MyTimer.git"
+  },
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.26.0",
