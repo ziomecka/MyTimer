@@ -11,6 +11,10 @@ const cleanOptions = {
 };
 
 const settings = merge (common, {
+  output: {
+    filename: "./myTimer.bundle.js",
+    path: path.join(__dirname, "/bundle")
+  },
   plugins: [
     new CleanWebpackPlugin(pathsToClean, cleanOptions)
   ]
