@@ -129,9 +129,9 @@ export default class MyTimer {
       }
     };
     /** start timer only if it has not been counting already */
-    if (!_this.is_started) {
+    if (!_this.is_counting) {
       _this.start = Date.now();
-      _this.is_started = true;
+      _this.is_counting = true;
       /** publish time at predefined intervals */
       _this.countDown = setInterval(publishTime(), this.interval);
       this.event.publish("sessionStarted");
@@ -146,12 +146,12 @@ export default class MyTimer {
   stop() {
     let _this = _privateObjects.get(this);
 
-    if (_this.is_started || _this.is_paused) {
+    if (_this.is_counting || _this.is_paused) {
       let now = Date.now();
       let maximumTime = _this.start + _this.session;
       const countDown = _this.countDown;
       _this.now = (now > maximumTime)? maximumTime : now;
-      _this.is_stoped = true;
+      _this.is_stopped = true;
     	if (countDown) clearInterval(countDown);
     	_this.countDown = null; //TODO is needed?
       this.event.publish("sessionStopped");
@@ -164,7 +164,7 @@ export default class MyTimer {
 
   pause() {
     let _this = _privateObjects.get(this);
-    if (_this.is_started) {
+    if (_this.is_counting) {
       const countDown = _this.countDown;
       _this.now = Date.now();
       _this.is_paused = true;
@@ -236,7 +236,7 @@ export default class MyTimer {
                 then make the session zero
                 (e.g timer has still 4 minutes,the session is decreased by 5 to -1, then make the session zero)
                 */
-          if (!_this.is_started || (_this.is_started && value > _this.ellapsed)) {
+          if (!_this.is_counting || (_this.is_counting && value > _this.ellapsed)) {
             if (value >= 0) {
               setSession(value);
             } else if (value < 0 && this.session > 0) {
