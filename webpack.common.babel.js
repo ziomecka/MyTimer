@@ -6,10 +6,6 @@ const settings = {
   entry: {
     app: path.join(__dirname, "/app/index.js")
   },
-  output: {
-    filename: "./myTimer.bundle.js",
-    path: path.join(__dirname, "/bundle")
-  },
   resolve: {
     modules: ["node_modules"]
   },
