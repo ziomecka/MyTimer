@@ -87,7 +87,7 @@ sessionStopped.remove();
 I'm a novice JavaScript developer. I coded MyTimer to present my skills and knowledge of:
 * JavaScript (ES5 and ES6),
 * tools and frameworks: jshint, babel, karma, jasmine, webpack, github, npm.
-Moreover, I'm familar with: HTML, CSS, WordPress, AngularJS.
+Moreover, I'm familar with: HTML, CSS, SASS, WordPress, AngularJS.
 If you want to learn more about me please visit:  [https://letsbitebytes.com](https://letsbitebytes.com)
 or just write to me: [katarzyna.ziomek.zdanowicz@gmail.com](mailto:katarzyna.ziomek.zdanowicz@gmail.com)
 
