@@ -1,0 +1,7 @@
+{
+  "initialisedWithDefaults": "Timer has been initialised with default values.",
+  "notInitialisedCountUnits": "Timer has not been initialised because of incorrect argument countUnits.",
+  "stepNotChanged": "Step has not been changed because of incorrect arguments.",
+  "millisecondsAssumed": "Since no units,'milliseconds' were assumed.",
+  "notPositiveInteger": "Value is not a positive integer."
+}
