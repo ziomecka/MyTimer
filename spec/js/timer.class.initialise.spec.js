@@ -10,6 +10,7 @@
 import Defaults from "../../app/mytimer.defaults";
 import Timer from "../../app/mytimer.class";
 import scenariosInitialise from "../scenarios/timer.scenarios.initialise";
+import messages from "../../app/mytimer.messages";
 
 let defs = new Defaults();
 
@@ -19,7 +20,7 @@ describe("Initialised timer: ", () => {
     let arg = scenariosInitialise.invalid["invalid count units"];
     spyOn(console, "warn");
     let timer = new Timer(arg);
-    expect(console.warn).toHaveBeenCalledWith(`Timer has been initialised with different values than those specified in constructor's call.`);
+    expect(console.warn).toHaveBeenCalledWith(messages.initialisedWithDefaults);
     // TODO add checking if default count units
   });
 
@@ -89,9 +90,7 @@ describe("Initialised timer: ", () => {
 			it(`with invalid units for ${invalidUnit} has units in milliseconds.
 				Remaining steps have values as provided in arguments.`, () => {
 				let timer = new Timer(invalidUnitsScenarios[invalidUnit])._this;
-				expect(console.warn).toHaveBeenCalledWith(`Timer has been initialised with different values than those specified in constructor's call.
-                              It is due to the received error:
-                              '${invalidUnit} step: Units are incorrect.'`);
+				expect(console.warn).toHaveBeenCalledWith(messages.initialisedWithDefaults);
 				expect(checkValues(timer, invalidUnitsScenarios[invalidUnit])).toBe(true);
 			});
 		});
@@ -103,9 +102,7 @@ describe("Initialised timer: ", () => {
 			it(`with invalid units for ${invalidValue} has units in milliseconds.
 				Remaining steps have values as provided in arguments.`, () => {
 				let timer = new Timer(invalidValuesScenarios[invalidValue])._this;
-				expect(console.warn).toHaveBeenCalledWith(`Timer has been initialised with different values than those specified in constructor's call.
-                              It is due to the received error:
-                              '${invalidValue} step: Value is not an integer.'`);
+				expect(console.warn).toHaveBeenCalledWith(messages.initialisedWithDefaults);
 				expect(checkValues(timer, invalidValuesScenarios[invalidValue])).toBe(true);
 			});
 		});
@@ -117,7 +114,7 @@ describe("Initialised timer: ", () => {
 			it(`with lack of ${lackOfUnit}'s units assumes 'milliseconds'.
 				Remaining steps have values as provided in arguments.`, () => {
 				let timer = new Timer(lackOfUnitsScenarios[lackOfUnit])._this;
-				expect(console.warn).toHaveBeenCalledWith(`Since no units were given, it was assumed that the value was given in milliseconds`);
+				expect(console.warn).toHaveBeenCalledWith(messages.millisecondsAssumed);
 				expect(checkValues(timer, lackOfUnitsScenarios[lackOfUnit])).toBe(true);
 			});
 		});
@@ -129,9 +126,7 @@ describe("Initialised timer: ", () => {
 			it(`with lack of ${lackOfValue}'s value has default value.
 				Remaining steps have values as provided in arguments.`, () => {
 				let timer = new Timer(lackOfValuesScenarios[lackOfValue])._this;
-				expect(console.warn).toHaveBeenCalledWith(`Timer has been initialised with different values than those specified in constructor's call.
-                              It is due to the received error:
-                              '${lackOfValue} step: Value is not an integer.'`);
+				expect(console.warn).toHaveBeenCalledWith(messages.initialisedWithDefaults);
 				expect(checkValues(timer, lackOfValuesScenarios[lackOfValue])).toBe(true);
 			});
 		});
