@@ -3,6 +3,8 @@ import "babel-polyfill";
 import Defaults from "./mytimer.defaults";
 import helpers from "./mytimer.helpers";
 import ObjectError from "./mytimer.customerror";
+import messages from "./mytimer.messages";
+
 
 let isObject = helpers.isObject;
 
@@ -56,14 +58,12 @@ export default class MyTimer {
             } catch(e) {
               /** Warn: initialised with defaults. */
               if (e.constructor === ObjectError) {
-                console.warn(`Timer has been initialised with different values than those specified in constructor's call.
-                              It is due to the received error:
-                              '${e.message}'`);
+                console.warn(messages.initialisedWithDefaults);
               }
             }
           } else {
             /** Warn: initialised with defaults. */
-            console.warn(`Timer has been initialised with different values than those specified in constructor's call.`);
+            console.warn(messages.initialisedWithDefaults);
           }
           /** Garbage collect */
           options = null;
@@ -71,11 +71,13 @@ export default class MyTimer {
       }
 
       /** Set MyTimer's counting direction */
-      try {
-        _this.direction = timerOptions.direction;
-      } catch (e) {
-        /** Warn: initialised with defaults. */
-        console.warn(`Timer has been initialised with different values than those specified in constructor's call.`);
+      if(timerOptions.direction)  {
+        try {
+          _this.direction = timerOptions.direction;
+        } catch (e) {
+          /** Warn: initialised with defaults. */
+          console.warn(messages.initialisedWithDefaults);
+        }
       }
 
       /** Are countUnits provided in arguments? */ // TODO is the check needed??
@@ -83,7 +85,7 @@ export default class MyTimer {
           _this.countUnits = timerOptions.countUnits;
         } catch (e) {
           if (e.constructor === ObjectError) {
-            console.warn(`Timer has been initialised with different values than those specified in constructor's call.`);
+            console.warn(messages.initialisedWithDefaults);
         }
       }
     }
@@ -118,6 +120,7 @@ export default class MyTimer {
     let _this = _privateObjects.get(this);
     _this.start = Date.now();
     let publishTime = () => {
+      let _this = _privateObjects.get(this);
       _this.now = Date.now();
       this.event.publish("currentTime");
       if (_this.ellapsed >= _this.session) {
@@ -126,12 +129,13 @@ export default class MyTimer {
       }
     };
     /** start timer only if it has not been counting already */
-    if (!_this.isCounting) {
+    if (!_this.is_started) {
       _this.start = Date.now();
-      _this.isCounting = true;
+      _this.is_started = true;
       /** publish time at predefined intervals */
-      _this.countDown = setInterval(publishTime(), _this.interval);
+      _this.countDown = setInterval(publishTime(), this.interval);
       this.event.publish("sessionStarted");
+      _this = null;
       return this;
     } else {
       _this = null;
@@ -142,28 +146,28 @@ export default class MyTimer {
   stop() {
     let _this = _privateObjects.get(this);
 
-    if (_this.isCounting) {
+    if (_this.is_started || _this.is_paused) {
       let now = Date.now();
       let maximumTime = _this.start + _this.session;
       const countDown = _this.countDown;
       _this.now = (now > maximumTime)? maximumTime : now;
+      _this.is_stoped = true;
     	if (countDown) clearInterval(countDown);
     	_this.countDown = null; //TODO is needed?
-    }
-      _this.isStopped = true;
-      _this = null;
       this.event.publish("sessionStopped");
+      return this;
+    }
 
     _this = null;
-    return this;
+    return false;
   }
 
   pause() {
     let _this = _privateObjects.get(this);
-    if (_this.isCounting) {
+    if (_this.is_started) {
       const countDown = _this.countDown;
       _this.now = Date.now();
-      _this.isPaused = true;
+      _this.is_paused = true;
     	if (countDown) clearInterval(countDown);
       _this = null;
       this.event.publish("sessionPaused");
@@ -232,7 +236,7 @@ export default class MyTimer {
                 then make the session zero
                 (e.g timer has still 4 minutes,the session is decreased by 5 to -1, then make the session zero)
                 */
-          if (!_this.isCounting || (_this.isCounting && value > _this.ellapsed)) {
+          if (!_this.is_started || (_this.is_started && value > _this.ellapsed)) {
             if (value >= 0) {
               setSession(value);
             } else if (value < 0 && this.session > 0) {
@@ -247,16 +251,21 @@ export default class MyTimer {
       };
       stepProcedure[step](value);
     } else {
-      throw Error ("Step has not been changed becuse of incorrect arguments.");
+      throw Error (messages.stepNotChanged);
     }
 
     /** garbage collect */
     _this = null;
 	}
 
-  toggle(method = "pause") {
-    // TODO check method
-		if (!this[method]()) this.start();
+  toggle(method = "stop") {
+    try {
+      if(!this[method]()) {
+        this.start();
+      }
+    } catch(e) {
+      console.warn(e.message);
+    }
 	}
 
   get status() {
