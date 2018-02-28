@@ -4,11 +4,6 @@ import merge from "webpack-merge";
 import common from "./webpack.common.babel";
 
 const settings = merge (common, {
-  plugins: [
-    // new webpack.SourceMapDevToolPlugin({
-    //   filename: 'myTimer.js.map',
-    // })
-  ],
   watch: true,
   devServer: {
     contentBase: "./bundle",
