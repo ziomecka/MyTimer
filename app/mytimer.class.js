@@ -153,8 +153,9 @@ export default class MyTimer {
       _this.cumulateEllapsed();
       _this.is_stopped = true;
       if (countDown) clearInterval(countDown);
-      _this = null;
       this.event.publish("sessionStopped");
+      /** garbage collection */
+      _this = null;
       return this;
     }
     _this = null;
@@ -204,9 +205,9 @@ export default class MyTimer {
       /** If increment is neither 0 nor 1, make it 0. */
       if (increment !== 0 && increment !== 1) increment = 0;
 
-      /* Change step only if it is longer then 0.
-      TODO:
-      */
+      /* Change step only if increase, OR
+        decrease AND the step being changed is longer then 0.
+        */
       if (sign > 0 || (sign < 0 && _this[step] > 0) ) {
         /** Calculate new step value: include current value if increment === 1 and
             add / substract new value depending on the sign.
