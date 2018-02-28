@@ -1,9 +1,7 @@
 /* jshint esversion: 6 */
-import helpers from "./mytimer.helpers";
+import {isPositiveInteger} from "./mytimer.helpers";
 import ObjectError from "./mytimer.customerror";
 import messages from "./mytimer.messages";
-
-let isPositiveInteger = helpers.isPositiveInteger;
 
 /**
  * TODO
@@ -78,10 +76,10 @@ export default class defaults {
 
     /** Set the initial start and now values */
     this.start = Date.now();
-		this.now = Date.now();
+    this.now = Date.now();
+    this._ellapsed = 0;
 
     this.createConversionMethods();
-    this.time = this.timeCalculation();
   }
 
   set countUnits(arr) {
@@ -163,12 +161,32 @@ export default class defaults {
     }
   }
 
-  /** Calculate the elapsed time in milliseconds. */
   get ellapsed() {
-    return (this.now - this.start);
-    // let value = (this.now - this.start);
-    // value = ((value > 0)? value : 0);
-    // return value;
+    return (this._ellapsed + this.now - this.start);
+  }
+
+  zeroEllapsed() {
+    this._ellapsed = 0;
+  }
+
+  zeroTimes() {
+    this.start = this.now = Date.now();
+  }
+
+  cumulateEllapsed() {
+    let cum = this._ellapsed + this.now - this.start;
+    let session = this.session;
+    this._ellapsed = (cum <= session)?  cum : session;
+    this.zeroTimes();
+  }
+
+  reset() {
+    this.zeroTimes();
+    this.zeroEllapsed();
+  }
+
+  get isEllapsed() {
+    return (this.ellapsed > this.session);
   }
 
   get direction() {
@@ -178,7 +196,6 @@ export default class defaults {
   set direction(value) {
     if (typeof value === "string") {
       this._direction = value;
-      this.time = this.timeCalculation();
     } else {
       throw new ObjectError (messages.initialisedWithDefaults);
     }
@@ -189,7 +206,7 @@ export default class defaults {
       Else assume that the timer counts up and
       return the ellapsed time.
       */
-  timeCalculation() {
+  get time() {
 		if (this._direction === "down") {
       return () => (this.session - this.ellapsed);
     } else {
