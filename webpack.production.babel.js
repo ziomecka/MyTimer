@@ -11,9 +11,7 @@ import {BundleAnalyzerPlugin as BundleAnalyzerPlugin} from "webpack-bundle-analy
 
 const pathsToClean = ["production"];
 const cleanOptions = {
-  verbose:  true,
-  dry:      true,
-  allowExternal: false
+  verbose:  true
 };
 const uglifyOptions =  {
   test: /\.js($|\?)/i,
@@ -51,7 +49,7 @@ const bundleAnalyseOptions = {
 const settings = merge(common, {
   output: {
     filename: "./myTimer.bundle.js",
-    path: path.join(__dirname, "/production"),
+    path: path.resolve(__dirname, "production"),
   },
   watch: false,
   cache: false,
