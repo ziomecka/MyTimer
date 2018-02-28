@@ -9,7 +9,4 @@ function isObject(obj) {
   return Object(obj) === obj;
 }
 
-export default {
-  isPositiveInteger: isPositiveInteger,
-  isObject: isObject
-};
+export {isPositiveInteger, isObject};
