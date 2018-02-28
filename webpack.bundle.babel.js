@@ -1,19 +1,19 @@
 /* jshint esversion: 6 */
 import merge from "webpack-merge";
 import common from "./webpack.common.babel";
+import path from "path";
 import CleanWebpackPlugin from "clean-webpack-plugin";
 
 const pathsToClean = ["bundle"];
 const cleanOptions = {
-  verbose:  true,
-  dry:      true,
-  allowExternal: false
+  verbose:  true
 };
 
 const settings = merge (common, {
+  devtool: "cheap-source-map",
   output: {
     filename: "./myTimer.bundle.js",
-    path: path.join(__dirname, "/bundle")
+    path: path.resolve(__dirname, "bundle")
   },
   plugins: [
     new CleanWebpackPlugin(pathsToClean, cleanOptions)
