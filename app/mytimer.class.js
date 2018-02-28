@@ -1,12 +1,9 @@
 /* jshint esversion: 6 */
 import "babel-polyfill";
 import Defaults from "./mytimer.defaults";
-import helpers from "./mytimer.helpers";
+import {isObject} from "./mytimer.helpers";
 import ObjectError from "./mytimer.customerror";
 import messages from "./mytimer.messages";
-
-
-let isObject = helpers.isObject;
 
 /** @type {WeakMap} Used to store private objects */
 const _privateObjects = new WeakMap();
@@ -25,7 +22,7 @@ const createPrivateObject = (obj) => {
 
 export default class MyTimer {
   /**
-   * [constructor description]
+   * [constructor description] //TODO
    *
    * @param  {Object}   timerOptions TODO
    */
@@ -118,24 +115,30 @@ export default class MyTimer {
 
   start() {
     let _this = _privateObjects.get(this);
-    _this.start = Date.now();
+    /** Function tha publishes currentTime. It is called at intervals.*/
     let publishTime = () => {
-      let _this = _privateObjects.get(this);
-      _this.now = Date.now();
-      this.event.publish("currentTime");
-      if (_this.ellapsed >= _this.session) {
+      if (!_this.isEllapsed) {
+        _this.now = Date.now();
+        this.event.publish("currentTime");
+      } else {
         _this = null;
         this.stop();
       }
     };
-    /** start timer only if it has not been counting already */
+    /** Start the timer only if it has not been counting already. */
     if (!_this.is_counting) {
-      _this.start = Date.now();
+      /** If the timer has not been paused then start counting from Date.now().
+          If the time has been paused one cannot change the start time!
+          */
+      if(!_this.is_paused) {
+        this.reset();
+      } else {
+        _this.zeroTimes();
+      }
       _this.is_counting = true;
-      /** publish time at predefined intervals */
-      _this.countDown = setInterval(publishTime(), this.interval);
+      /** Publish time at predefined intervals. */
+      _this.countDown = setInterval(publishTime, _this.interval);
       this.event.publish("sessionStarted");
-      _this = null;
       return this;
     } else {
       _this = null;
@@ -145,19 +148,15 @@ export default class MyTimer {
 
   stop() {
     let _this = _privateObjects.get(this);
-
     if (_this.is_counting || _this.is_paused) {
-      let now = Date.now();
-      let maximumTime = _this.start + _this.session;
       const countDown = _this.countDown;
-      _this.now = (now > maximumTime)? maximumTime : now;
+      _this.cumulateEllapsed();
       _this.is_stopped = true;
-    	if (countDown) clearInterval(countDown);
-    	_this.countDown = null; //TODO is needed?
+      if (countDown) clearInterval(countDown);
+      _this = null;
       this.event.publish("sessionStopped");
       return this;
     }
-
     _this = null;
     return false;
   }
@@ -166,7 +165,7 @@ export default class MyTimer {
     let _this = _privateObjects.get(this);
     if (_this.is_counting) {
       const countDown = _this.countDown;
-      _this.now = Date.now();
+      _this.cumulateEllapsed();
       _this.is_paused = true;
     	if (countDown) clearInterval(countDown);
       _this = null;
@@ -178,11 +177,7 @@ export default class MyTimer {
   }
 
   reset() {
-    let _this = _privateObjects.get(this);
-		this.stop();
-    _this.start = Date.now();
-		_this.now = Date.now();
-    _this = null;
+    _privateObjects.get(this).reset();
     this.event.publish("timerReset");
   }
 
@@ -197,65 +192,63 @@ export default class MyTimer {
   changeStep(options) {
     let _this = _privateObjects.get(this);
     let step = options.step;
-
-    /** Check options received */
-    if ((_this.steps.has(step)) && options) {
+    /** If options received AND the step is correct perform change,
+        else: throw Error.
+        */
+    if (options && (_this.steps.has(step))) {
       let value, sign, increment;
-
       /** Get options values */
       ({sign: sign, increment: increment} = options);
-
-      /** if sign is neither 1 nor -1, make it 1 */
+      /** If sign is neither 1 nor -1, make it 1. */
       if (sign !== 1 && sign !== -1) sign = 1;
-
-      /** if increment is neither 0 nor 1, make it 0 */
+      /** If increment is neither 0 nor 1, make it 0. */
       if (increment !== 0 && increment !== 1) increment = 0;
 
-      /** Calculate new step value: include current value if increment === 1 and
-          add / substract new value depending on the sign.
-          The convert method will check if the value and units are correct.
-          */
-      value = _this.convert(options) * sign + _this[step] * increment;
+      /* Change step only if it is longer then 0.
+      TODO:
+      */
+      if (sign > 0 || (sign < 0 && _this[step] > 0) ) {
+        /** Calculate new step value: include current value if increment === 1 and
+            add / substract new value depending on the sign.
+            The convert method will check if the value and units are correct.
+            */
+        value = _this.convert(options) * sign + _this[step] * increment;
+        /** Step's length cannot be negative.
+            Check the sign here. If the sign was not checked and
+            negative value was passed to the session's and interval's setters,
+            then an error would be thrown.
+            */
+        if (value < 0) value = 0;
 
-      /** Steps' procedures */
-      let stepProcedure = {
-        "session": (value) => {
-          let setSession = (value) => {
-            _this[step] = {value: value};
-            this.event.publish("sessionChanged");
-            this.event.publish("currentTime");
-          };
-
-          /** set the session's length if:
-              - timer is not counting, or
-              - timer is counting && the session length is longer than the time ellapsed.
-              Check sign because Mytimer.defaults' session setter would throw error
-              if value is negative:
-              - if value is positive or zero: set session
-              - if value is negative but timer's session is positive
-                then make the session zero
-                (e.g timer has still 4 minutes,the session is decreased by 5 to -1, then make the session zero)
+        /** Steps' procedures */
+        let stepProcedure = {
+          "session": (value) => {
+            /** Set the session's length if:
+                - timer is not counting and is not paused, OR
+                - timer is counting or is paused AND the new session length is longer than the time ellapsed.
                 */
-          if (!_this.is_counting || (_this.is_counting && value > _this.ellapsed)) {
-            if (value >= 0) {
-              setSession(value);
-            } else if (value < 0 && this.session > 0) {
-              setSession(0);
+            if ((!_this.is_counting && !_this.is_paused) || (value > (_this.ellapsed))) {
+              _this[step] = {value: value};
+              this.event.publish("sessionChanged");
+              this.event.publish("currentTime");
             }
+          },
+          "interval": () => {
+            // TODO
           }
-          setSession = null;
-        },
-        "interval": () => {
-          // TODO
-        }
-      };
-      stepProcedure[step](value);
+        };
+        stepProcedure[step](value);
+        /** garbage collect */
+        _this = null;
+        return true;
+      } else {
+        /** garbage collect */
+        _this = null;
+        return false;
+      }
     } else {
       throw Error (messages.stepNotChanged);
     }
-
-    /** garbage collect */
-    _this = null;
 	}
 
   toggle(method = "stop") {
