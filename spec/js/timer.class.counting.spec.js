@@ -1,12 +1,4 @@
 /* jshint esversion: 6 */
-
-// TODO split between files
-// TODO test creating and removing methods
-// TODO test real counting
-// TODO return correct values when stepChanged
-// TODO test passing negative values - error expected
-// TODO what if direction changes when ccounting?
-
 import Defaults from "../../app/mytimer.defaults";
 import Timer from "../../app/mytimer.class";
 import scenariosCounting from "../scenarios/timer.scenarios.counting";
@@ -61,15 +53,6 @@ describe("'If' timer was counting (for explanaition of 'if' see the tests' code)
       timer._this.now = timer._this.start + time;
       runIt();
       done();
-
-      // TODO zrobic drugi taki test na mniejszych wartosciach
-      // timer.start();
-      //
-      // setTimeout(() =>  {
-      //   timerCallback();
-      //   runIt();
-      //   done();
-      // }, time);
 
     });
 
