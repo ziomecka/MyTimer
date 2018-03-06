@@ -2,13 +2,12 @@
 import {isPositiveInteger} from "./mytimer.helpers";
 import ObjectError from "./mytimer.customerror";
 import messages from "./mytimer.messages";
-
 /**
  * TODO
  *
  * @type {Array}
  */
-export default class defaults {
+export default class Defaults {
   constructor() {
     /**
     * Session - time that is counted down
@@ -69,6 +68,9 @@ export default class defaults {
     ];
 
     this.listeners = {};
+
+    /** create listeners array */
+    this.events.forEach((event) => this.listeners[event] = []);
 
     /** set status to stop */
 		this.status = this.statuses.get("stopped");
