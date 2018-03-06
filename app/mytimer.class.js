@@ -95,38 +95,43 @@ export default class MyTimer {
     /** Create MyTimer's events. */
     this.event = (() => {
       let listeners = _this.listeners;
-      _this.events.forEach((event) => listeners[event] = []);
       return {
         subscribe: (listener, eventName, method) => {
           // TODO check if eventName is correct
           const index = listeners[eventName].push({listener: listener, method: method}) - 1;
-          return {
-            remove: () => delete listeners[eventName][index]
-          };
+          return () => delete listeners[eventName][index];
         },
         publish: (eventName) => {
           listeners[eventName].forEach((listener) => {
             listener.listener[listener.method]();
           });
+        },
+        unsubscribeAll: (events =  _privateObjects.get(this).events) => {
+          events.forEach((eventName) => {
+            Object.keys(listeners[eventName]).forEach((index) => {
+              delete listeners[eventName][index];
+            });
+          });
+          return true;
         }
       };
     })();
+    _this = null;
   }
 
   start() {
-    let _this = _privateObjects.get(this);
-    /** Function tha publishes currentTime. It is called at intervals.*/
-    let publishTime = () => {
-      if (!_this.isEllapsed) {
-        _this.now = Date.now();
-        this.event.publish("currentTime");
-      } else {
-        _this = null;
-        this.stop();
-      }
-    };
     /** Start the timer only if it has not been counting already. */
-    if (!_this.is_counting) {
+    if (!_privateObjects.get(this).is_counting) {
+      let _this = _privateObjects.get(this);
+      /** Function tha publishes currentTime. It is called at intervals.*/
+      let publishTime = () => {
+        if (!_this.isEllapsed) {
+          _this.now = Date.now();
+          this.event.publish("currentTime");
+        } else {
+          this.stop();
+        }
+      };
       /** If the timer has not been paused then start counting from Date.now().
           If the time has been paused one cannot change the start time!
           */
@@ -138,10 +143,21 @@ export default class MyTimer {
       _this.is_counting = true;
       /** Publish time at predefined intervals. */
       _this.countDown = setInterval(publishTime, _this.interval);
-      this.event.publish("sessionStarted");
+      /** The method clears interval and dereferences _this.
+          It is done to avoid the memory leak.
+          */
+      _this.removeCountDown = () => { //TUTAJ
+        if (_this.countDown) {
+          clearInterval(_this.countDown);
+          delete _this.countDown;
+        }
+        _this = null;
+        publishTime = null;
+      };
+      this.event.publish(["sessionStarted"]);
+      this.event.unsubscribeAll(["sessionStarted"]);
       return this;
     } else {
-      _this = null;
       return false;
     }
   }
@@ -149,13 +165,14 @@ export default class MyTimer {
   stop() {
     let _this = _privateObjects.get(this);
     if (_this.is_counting || _this.is_paused) {
-      const countDown = _this.countDown;
       _this.cumulateEllapsed();
       _this.is_stopped = true;
-      if (countDown) clearInterval(countDown);
-      this.event.publish("sessionStopped");
+      _this.removeCountDown();
+      delete _this.removeCountDown;
       /** garbage collection */
       _this = null;
+      this.event.publish("sessionStopped");
+      this.event.unsubscribeAll(["currentTime", "sessionPaused", "sessionStopped"]);
       return this;
     }
     _this = null;
@@ -165,12 +182,14 @@ export default class MyTimer {
   pause() {
     let _this = _privateObjects.get(this);
     if (_this.is_counting) {
-      const countDown = _this.countDown;
       _this.cumulateEllapsed();
       _this.is_paused = true;
-    	if (countDown) clearInterval(countDown);
+      _this.removeCountDown();
+      delete _this.removeCountDown;
+      /** garbage collection */
       _this = null;
       this.event.publish("sessionPaused");
+      this.event.unsubscribeAll(["sessionPaused"]);
       return this;
     }
     _this = null;
@@ -180,6 +199,7 @@ export default class MyTimer {
   reset() {
     _privateObjects.get(this).reset();
     this.event.publish("timerReset");
+    this.event.unsubscribeAll(["timerReset"]);
   }
 
   /**
@@ -231,7 +251,6 @@ export default class MyTimer {
             if ((!_this.is_counting && !_this.is_paused) || (value > (_this.ellapsed))) {
               _this[step] = {value: value};
               this.event.publish("sessionChanged");
-              this.event.publish("currentTime");
             }
           },
           "interval": () => {
@@ -248,6 +267,7 @@ export default class MyTimer {
         return false;
       }
     } else {
+      _this = null;
       throw Error (messages.stepNotChanged);
     }
 	}
@@ -268,5 +288,13 @@ export default class MyTimer {
 
   get session() {
     return _privateObjects.get(this).session;
+  }
+
+  get ellapsed() {
+    return _privateObjects.get(this).ellapsed;
+  }
+
+  unsubscribe() {
+    return this.event.unsubscribeAll();
   }
 }
