@@ -23,7 +23,7 @@ describe("When timer is counting ", () => {
     let direction = scenario.settings.direction;
     let timer;
 
-    it (`${direction} for ${time} milliseconds and stops then it returns correct ${countUnits}`, (done) => {
+    it (`${direction} for ${time} milliseconds and stops then it returns correct ${countUnits} and correct ellapsed time`, (done) => {
       let timer = new Timer(valid);
       let timerCallback = () => timer.stop();
       let runIt = () => {
@@ -34,11 +34,13 @@ describe("When timer is counting ", () => {
           let acceptedDifference = scenario.acceptedDifference || defaultAcceptedDifference;
           /** calculate time difference in milliseconds */
           let timeDifference = timer._this.convert({value: Math.abs(timerValue - expectedValue)});
+          let ellapsed = timer.ellapsed;
           /** the difference should be not higher then ... */
           expect(timeDifference)
             .toBeLessThanOrEqual(acceptedDifference,
               `when counting for ${time} milliseconds,
                ${countUnit} differs by ${timeDifference} milliseconds`);
+          expect(ellapsed - time).toBeLessThanOrEqual(acceptedDifference);
         });
       };
 
