@@ -106,7 +106,7 @@ export default class MyTimer {
             listener.listener[listener.method]();
           });
         },
-        unsubscribeAll: (events =  _privateObjects.get(this).events) => {
+        unsubscribe: (events =  _privateObjects.get(this).events) => {
           events.forEach((eventName) => {
             Object.keys(listeners[eventName]).forEach((index) => {
               delete listeners[eventName][index];
@@ -155,7 +155,7 @@ export default class MyTimer {
         publishTime = null;
       };
       this.event.publish(["sessionStarted"]);
-      this.event.unsubscribeAll(["sessionStarted"]);
+      if (_this.safeMode) this.event.unsubscribe(["sessionStarted"]);
       return this;
     } else {
       return false;
@@ -170,9 +170,9 @@ export default class MyTimer {
       _this.removeCountDown();
       delete _this.removeCountDown;
       /** garbage collection */
-      _this = null;
       this.event.publish("sessionStopped");
-      this.event.unsubscribeAll(["currentTime", "sessionPaused", "sessionStopped"]);
+      if (_this.safeMode) this.event.unsubscribe(["currentTime", "sessionPaused", "sessionStopped"]);
+      _this = null;
       return this;
     }
     _this = null;
@@ -185,11 +185,10 @@ export default class MyTimer {
       _this.cumulateEllapsed();
       _this.is_paused = true;
       _this.removeCountDown();
-      delete _this.removeCountDown;
       /** garbage collection */
-      _this = null;
       this.event.publish("sessionPaused");
-      this.event.unsubscribeAll(["sessionPaused"]);
+      if (_this.safeMode) this.event.unsubscribe(["sessionPaused"]);
+      _this = null;
       return this;
     }
     _this = null;
@@ -197,9 +196,11 @@ export default class MyTimer {
   }
 
   reset() {
-    _privateObjects.get(this).reset();
+    let _this = _privateObjects.get(this);
+    _this.reset();
     this.event.publish("timerReset");
-    this.event.unsubscribeAll(["timerReset"]);
+    if (_this.safeMode) this.event.unsubscribe(["timerReset"]);
+    _this = null;
   }
 
   /**
@@ -294,7 +295,16 @@ export default class MyTimer {
     return _privateObjects.get(this).ellapsed;
   }
 
+  safeMode(value = true) {
+    _privateObjects.get(this).safeMode = value;
+  }
+
   unsubscribe() {
-    return this.event.unsubscribeAll();
+    return this.event.unsubscribe();
+  }
+
+  destroy() {
+    this.unsubscribe();
+    return _privateObjects.delete(this);
   }
 }

@@ -8,7 +8,7 @@ import messages from "./mytimer.messages";
  *
  * @type {Array}
  */
-export default class defaults {
+export default class Defaults {
   constructor() {
     /**
     * Session - time that is counted down
@@ -70,6 +70,9 @@ export default class defaults {
 
     this.listeners = {};
 
+    /** create listeners array */
+    this.events.forEach((event) => this.listeners[event] = []);
+
     /** set status to stop */
 		this.status = this.statuses.get("stopped");
     this._direction = "down";
@@ -78,6 +81,8 @@ export default class defaults {
     this.start = Date.now();
     this.now = Date.now();
     this._ellapsed = 0;
+
+    this.safeMode = false;
 
     this.createConversionMethods();
   }
